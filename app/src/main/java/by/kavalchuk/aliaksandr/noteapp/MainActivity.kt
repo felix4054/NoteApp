@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
                             title = {
                                 Text(text = "Notes App")
                             },
-                            backgroundColor = MaterialTheme.colors.background,
+//                            backgroundColor = Color.Blue,,
 //                            contentColor = Color.White, //ЦВЕТ ТЕКСТА
                             elevation = 12.dp
                         )

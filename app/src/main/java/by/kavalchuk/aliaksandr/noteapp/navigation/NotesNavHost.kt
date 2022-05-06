@@ -39,13 +39,6 @@ fun NotesNavHost() {
             NoteScreen(navController = navController)
         }
     }
-    
-    
-    
-    
-    
-    
-    
 }
 
 

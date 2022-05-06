@@ -1,10 +1,75 @@
 package by.kavalchuk.aliaksandr.noteapp.screens
 
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import by.kavalchuk.aliaksandr.noteapp.navigation.NavRoute
+import by.kavalchuk.aliaksandr.noteapp.ui.theme.NoteAppTheme
 
 @Composable
 fun StartScreen(navController: NavHostController) {
-    Text(text = "Start Page")
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        backgroundColor = MaterialTheme.colors.background
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(text = "What will me use?")
+            Button(
+                onClick = {
+                    navController.navigate(NavRoute.Main.route)
+                },
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+                    .width(200.dp)
+            ) {
+                Text(text = "Room database")
+            }
+            Button(
+                onClick = {
+                    navController.navigate(NavRoute.Main.route)
+                },
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+                    .width(200.dp)
+            ) {
+                Text(text = "Firebase database")
+            }
+        }
+    }
 }
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewStartScreen() {
+    NoteAppTheme {
+        StartScreen(navController = rememberNavController())
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
