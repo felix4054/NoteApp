@@ -31,17 +31,27 @@ fun NotesNavHost() {
         startDestination = NavRoute.Start.route
     ) {
         composable(NavRoute.Start.route) {
-            StartScreen(navController = navController, mainViewModel = mainViewModel)
+            StartScreen(
+                navController = navController,
+                mainViewModel = mainViewModel
+            )
         }
         composable(NavRoute.Main.route) {
 
-            MainScreen(navController = navController)
+            MainScreen(
+                navController = navController,
+                mainViewModel = mainViewModel
+            )
         }
         composable(NavRoute.Add.route) {
-            AddScreen(navController = navController)
+            AddScreen(
+                navController = navController
+            )
         }
         composable(NavRoute.Note.route) {
-            NoteScreen(navController = navController)
+            NoteScreen(
+                navController = navController
+            )
         }
     }
 }

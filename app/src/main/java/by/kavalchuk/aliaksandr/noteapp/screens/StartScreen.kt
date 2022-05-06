@@ -28,10 +28,6 @@ import by.kavalchuk.aliaksandr.noteapp.utils.TYPE_ROOM
 @Composable
 fun StartScreen(navController: NavHostController, mainViewModel: MainViewModel) {
 
-//    val context = LocalContext.current
-//    val mainViewModel: MainViewModel =
-//        viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
-
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         backgroundColor = MaterialTheme.colors.background
