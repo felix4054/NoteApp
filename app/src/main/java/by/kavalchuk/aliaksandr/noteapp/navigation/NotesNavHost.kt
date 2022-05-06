@@ -1,9 +1,6 @@
 package by.kavalchuk.aliaksandr.noteapp.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -12,13 +9,17 @@ import by.kavalchuk.aliaksandr.noteapp.screens.AddScreen
 import by.kavalchuk.aliaksandr.noteapp.screens.MainScreen
 import by.kavalchuk.aliaksandr.noteapp.screens.NoteScreen
 import by.kavalchuk.aliaksandr.noteapp.screens.StartScreen
-import androidx.navigation.NavHostController as navController
+import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Keys.ID
+import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Screens.ADD_SCREEN
+import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Screens.MAIN_SCREEN
+import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Screens.NOTE_SCREEN
+import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Screens.START_SCREEN
 
 sealed class NavRoute(val route: String) {
-    object Start : NavRoute("start_screen")
-    object Main : NavRoute("main_screen")
-    object Add : NavRoute("add_screen")
-    object Note : NavRoute("note_screen")
+    object Start : NavRoute(route = START_SCREEN)
+    object Main : NavRoute(route = MAIN_SCREEN)
+    object Add : NavRoute(route = ADD_SCREEN)
+    object Note : NavRoute(route = NOTE_SCREEN)
 
 }
 
@@ -50,10 +51,11 @@ fun NotesNavHost(mainViewModel: MainViewModel) {
                 mainViewModel = mainViewModel
             )
         }
-        composable(NavRoute.Note.route) {
+        composable(NavRoute.Note.route + "/{${ID}}") { backStateEnty ->
             NoteScreen(
                 navController = navController,
-                mainViewModel = mainViewModel
+                mainViewModel = mainViewModel,
+                noteId = backStateEnty.arguments?.getString(ID)
             )
         }
     }

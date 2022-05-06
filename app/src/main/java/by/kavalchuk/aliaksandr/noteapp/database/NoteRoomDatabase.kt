@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import by.kavalchuk.aliaksandr.noteapp.database.room.dao.NoteRoomDao
 import by.kavalchuk.aliaksandr.noteapp.model.Note
+import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Keys.NOTE_DATABASE
 
 @Database(entities = [Note::class], version = 1, exportSchema = false)
 abstract class NoteRoomDatabase: RoomDatabase() {
@@ -24,7 +25,7 @@ abstract class NoteRoomDatabase: RoomDatabase() {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         NoteRoomDatabase::class.java,
-                        "notes_database"
+                        NOTE_DATABASE
                     ).fallbackToDestructiveMigration()
                         .build()
                     INSTANCE = instance

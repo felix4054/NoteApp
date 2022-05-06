@@ -9,6 +9,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -19,10 +20,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import by.kavalchuk.aliaksandr.noteapp.MainViewModel
+import by.kavalchuk.aliaksandr.noteapp.model.Note
 import by.kavalchuk.aliaksandr.noteapp.ui.theme.NoteAppTheme
+import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Keys.NONE
 
 @Composable
-fun NoteScreen(navController: NavHostController, mainViewModel: MainViewModel) {
+fun NoteScreen(navController: NavHostController, mainViewModel: MainViewModel, noteId: String?) {
+
+    val notes = mainViewModel.readAllNotes().observeAsState(listOf()).value
+    val note = notes.firstOrNull{it.id == noteId?.toInt()} ?: Note(title = NONE, subtitle = NONE)
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         backgroundColor = MaterialTheme.colors.background
@@ -43,13 +50,13 @@ fun NoteScreen(navController: NavHostController, mainViewModel: MainViewModel) {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "title",
+                        text = note.title,
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(top = 32.dp)
                     )
                     Text(
-                        text = "subtitle",
+                        text = note.subtitle,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Light,
                         modifier = Modifier.padding(top = 16.dp)
@@ -67,7 +74,8 @@ fun PreviewNoteScreen() {
     NoteAppTheme {
         NoteScreen(
             navController = rememberNavController(),
-            mainViewModel = hiltViewModel()
+            mainViewModel = hiltViewModel(),
+            noteId = "1"
         )
     }
 }

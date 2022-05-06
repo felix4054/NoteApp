@@ -16,6 +16,10 @@ import by.kavalchuk.aliaksandr.noteapp.MainViewModel
 import by.kavalchuk.aliaksandr.noteapp.model.Note
 import by.kavalchuk.aliaksandr.noteapp.navigation.NavRoute
 import by.kavalchuk.aliaksandr.noteapp.ui.theme.NoteAppTheme
+import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Keys.ADD_NEW_NOTE
+import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Keys.NOTE_SUBTITLE
+import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Keys.NOTE_TITLE
+import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Keys.SAVE_NOTE
 
 @Composable
 fun AddScreen(navController: NavHostController, mainViewModel: MainViewModel) {
@@ -34,7 +38,7 @@ fun AddScreen(navController: NavHostController, mainViewModel: MainViewModel) {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Add new note",
+                text = ADD_NEW_NOTE,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(vertical = 32.dp)
@@ -45,7 +49,7 @@ fun AddScreen(navController: NavHostController, mainViewModel: MainViewModel) {
                     title = it
                     isButtonEnable = title.isNotEmpty() && subtitle.isNotEmpty()
                 },
-                label = { Text(text = "Note title") },
+                label = { Text(text = NOTE_TITLE) },
                 isError = title.isEmpty()
             )
             OutlinedTextField(
@@ -54,7 +58,7 @@ fun AddScreen(navController: NavHostController, mainViewModel: MainViewModel) {
                     subtitle = it
                     isButtonEnable = title.isNotEmpty() && subtitle.isNotEmpty()
                 },
-                label = { Text(text = "Note subtitle") },
+                label = { Text(text = NOTE_SUBTITLE) },
                 isError = subtitle.isEmpty()
             )
             Button(
@@ -69,7 +73,7 @@ fun AddScreen(navController: NavHostController, mainViewModel: MainViewModel) {
                     .padding(top = 16.dp)
                     .padding(horizontal = 16.dp)
             ) {
-                Text(text = "Save Note")
+                Text(text = SAVE_NOTE)
             }
         }
     }
