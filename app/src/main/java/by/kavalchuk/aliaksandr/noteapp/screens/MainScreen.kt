@@ -29,9 +29,7 @@ import by.kavalchuk.aliaksandr.noteapp.navigation.NavRoute
 import by.kavalchuk.aliaksandr.noteapp.ui.theme.NoteAppTheme
 
 @Composable
-fun MainScreen(navController: NavHostController, mainViewModel: MainViewModel) {
-
-    val notes = mainViewModel.readAllData.observeAsState(listOf()).value
+fun MainScreen(navController: NavHostController) {
 
     Scaffold(
         floatingActionButton = {
@@ -50,12 +48,12 @@ fun MainScreen(navController: NavHostController, mainViewModel: MainViewModel) {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            LazyColumn {
-                items(notes) {  note ->
-                    NoteItem(note = note, navController = navController)
-                }
-
-            }
+//            LazyColumn {
+//                items(notes) {  note ->
+//                    NoteItem(note = note, navController = navController)
+//                }
+//
+//            }
         }
     }
 }
@@ -93,8 +91,7 @@ fun NoteItem(note: Note, navController: NavHostController) {
 fun PreviewMainScreen() {
     NoteAppTheme {
         MainScreen(
-            navController = rememberNavController(),
-            mainViewModel = hiltViewModel()
+            navController = rememberNavController()
         )
     }
 }
