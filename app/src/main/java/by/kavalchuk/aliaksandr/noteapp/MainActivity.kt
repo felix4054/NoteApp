@@ -10,8 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.rememberNavController
 import by.kavalchuk.aliaksandr.noteapp.navigation.NotesNavHost
+import by.kavalchuk.aliaksandr.noteapp.screens.StartScreen
 import by.kavalchuk.aliaksandr.noteapp.ui.theme.NoteAppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +44,17 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewStartScreen() {
+    NoteAppTheme {
+        StartScreen(
+            navController = rememberNavController(),
+            mainViewModel = hiltViewModel()
+        )
     }
 }
 

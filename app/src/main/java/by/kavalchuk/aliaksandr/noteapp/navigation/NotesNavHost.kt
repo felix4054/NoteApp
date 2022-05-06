@@ -1,9 +1,12 @@
 package by.kavalchuk.aliaksandr.noteapp.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import by.kavalchuk.aliaksandr.noteapp.MainViewModel
 import by.kavalchuk.aliaksandr.noteapp.screens.AddScreen
 import by.kavalchuk.aliaksandr.noteapp.screens.MainScreen
 import by.kavalchuk.aliaksandr.noteapp.screens.NoteScreen
@@ -21,15 +24,17 @@ sealed class NavRoute(val route: String) {
 @Composable
 fun NotesNavHost() {
     val navController = rememberNavController()
-    
+    val mainViewModel = hiltViewModel<MainViewModel>()
+
     NavHost(
         navController = navController,
         startDestination = NavRoute.Start.route
     ) {
         composable(NavRoute.Start.route) {
-            StartScreen(navController = navController)
+            StartScreen(navController = navController, mainViewModel = mainViewModel)
         }
         composable(NavRoute.Main.route) {
+
             MainScreen(navController = navController)
         }
         composable(NavRoute.Add.route) {
