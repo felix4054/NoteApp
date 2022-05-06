@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -24,10 +25,7 @@ import by.kavalchuk.aliaksandr.noteapp.utils.TYPE_ROOM
 
 
 @Composable
-fun StartScreen(navController: NavHostController) {
-    val context = LocalContext.current
-    val mainViewModel: MainViewModel =
-        viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
+fun StartScreen(navController: NavHostController, mainViewModel: MainViewModel) {
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -75,7 +73,8 @@ fun StartScreen(navController: NavHostController) {
 fun PreviewStartScreen() {
     NoteAppTheme {
         StartScreen(
-            navController = rememberNavController()
+            navController = rememberNavController(),
+            mainViewModel = hiltViewModel()
         )
     }
 }

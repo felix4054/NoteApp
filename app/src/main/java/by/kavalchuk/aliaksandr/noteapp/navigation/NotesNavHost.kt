@@ -15,15 +15,16 @@ import by.kavalchuk.aliaksandr.noteapp.screens.StartScreen
 import androidx.navigation.NavHostController as navController
 
 sealed class NavRoute(val route: String) {
-    object Start: NavRoute("start_screen")
-    object Main: NavRoute("main_screen")
-    object Add: NavRoute("add_screen")
-    object Note: NavRoute("note_screen")
+    object Start : NavRoute("start_screen")
+    object Main : NavRoute("main_screen")
+    object Add : NavRoute("add_screen")
+    object Note : NavRoute("note_screen")
 
 }
 
 @Composable
-fun NotesNavHost() {
+fun NotesNavHost(mainViewModel: MainViewModel) {
+
     val navController = rememberNavController()
 
     NavHost(
@@ -32,23 +33,27 @@ fun NotesNavHost() {
     ) {
         composable(NavRoute.Start.route) {
             StartScreen(
-                navController = navController
+                navController = navController,
+                mainViewModel = mainViewModel
             )
         }
         composable(NavRoute.Main.route) {
 
             MainScreen(
-                navController = navController
+                navController = navController,
+                mainViewModel = mainViewModel
             )
         }
         composable(NavRoute.Add.route) {
             AddScreen(
-                navController = navController
+                navController = navController,
+                mainViewModel = mainViewModel
             )
         }
         composable(NavRoute.Note.route) {
             NoteScreen(
-                navController = navController
+                navController = navController,
+                mainViewModel = mainViewModel
             )
         }
     }
