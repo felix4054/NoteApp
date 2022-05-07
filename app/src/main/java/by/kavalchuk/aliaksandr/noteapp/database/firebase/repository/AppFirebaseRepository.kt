@@ -61,10 +61,49 @@ class AppFirebaseRepository : DatabaseRepository {
     }
 
     override suspend fun update(note: Note, onSuccess: () -> Unit) {
-        TODO("Not yet implemented")
+        val noteId = note.firebaseId
+        val mapNotes = hashMapOf<String, Any>()
+
+        mapNotes[FIREBASE_ID] = noteId
+        mapNotes[Constants.Keys.TITLE] = note.title
+        mapNotes[Constants.Keys.SUBTITLE] = note.subtitle
+
+        database.child(noteId)
+            .updateChildren(mapNotes)
+            .addOnSuccessListener {
+                Log.d("checkData", "Update Firebase success")
+                onSuccess()
+            }
+            .addOnFailureListener {
+                Log.d("checkData", "Error Firebase(failed to update notes)")
+            }
     }
 
     override suspend fun delete(note: Note, onSuccess: () -> Unit) {
-        TODO("Not yet implemented")
+        database.child(note.firebaseId).removeValue()
+            .addOnSuccessListener {
+                Log.d("checkData", "Delete Firebase success")
+                onSuccess()
+            }
+            .addOnFailureListener {
+                Log.d("checkData", "Error Firebase(failed to delete notes)")
+            }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

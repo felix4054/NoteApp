@@ -75,6 +75,7 @@ fun StartScreen(navController: NavHostController, mainViewModel: MainViewModel) 
                             LOGIN = login
                             PASSWORD = password
                             mainViewModel.initDataBase(TYPE_FIREBASE) {
+                                DB_TYPE = TYPE_FIREBASE
                                 navController.navigate(NavRoute.Main.route)
                             }
 //                                navController.popBackStack(
@@ -108,6 +109,7 @@ fun StartScreen(navController: NavHostController, mainViewModel: MainViewModel) 
                 Button(
                     onClick = {
                         mainViewModel.initDataBase(TYPE_ROOM) {
+                            DB_TYPE = TYPE_ROOM
                             navController.navigate(NavRoute.Main.route)
                         }
                     },

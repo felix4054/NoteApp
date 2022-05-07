@@ -13,11 +13,15 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import by.kavalchuk.aliaksandr.noteapp.MainViewModel
 import by.kavalchuk.aliaksandr.noteapp.model.Note
+import by.kavalchuk.aliaksandr.noteapp.utils.Constants
 import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Keys.NONE
 import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Keys.NOTE_SUBTITLE
 import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Keys.NOTE_TITLE
 import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Keys.UPDATE_NOTE
 import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Screens.MAIN_SCREEN
+import by.kavalchuk.aliaksandr.noteapp.utils.DB_TYPE
+import by.kavalchuk.aliaksandr.noteapp.utils.TYPE_FIREBASE
+import by.kavalchuk.aliaksandr.noteapp.utils.TYPE_ROOM
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -25,7 +29,15 @@ import kotlinx.coroutines.launch
 fun NoteScreen(navController: NavHostController, mainViewModel: MainViewModel, noteId: String?) {
 
     val notes = mainViewModel.readAllNotes().observeAsState(listOf()).value
-    val note = notes.firstOrNull { it.id == noteId?.toInt() } ?: Note(title = NONE, subtitle = NONE)
+    val note = when(DB_TYPE) {
+        TYPE_ROOM -> {
+            notes.firstOrNull { it.id == noteId?.toInt() } ?: Note()
+        }
+        TYPE_FIREBASE -> {
+            notes.firstOrNull { it.firebaseId == noteId } ?: Note()
+        }
+        else -> Note()
+    }
     val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
     val coroutineScope = rememberCoroutineScope()
     var title by remember { mutableStateOf("") }
@@ -80,7 +92,8 @@ fun NoteScreen(navController: NavHostController, mainViewModel: MainViewModel, n
                                 note = Note(
                                     id = note.id,
                                     title = title,
-                                    subtitle = subtitle
+                                    subtitle = subtitle,
+                                    firebaseId = note.firebaseId
                                 )
                             ) {
                                 navController.popBackStack(MAIN_SCREEN, inclusive = false)

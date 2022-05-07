@@ -25,6 +25,9 @@ import by.kavalchuk.aliaksandr.noteapp.model.Note
 import by.kavalchuk.aliaksandr.noteapp.navigation.NavRoute
 import by.kavalchuk.aliaksandr.noteapp.ui.theme.NoteAppTheme
 import by.kavalchuk.aliaksandr.noteapp.utils.Constants
+import by.kavalchuk.aliaksandr.noteapp.utils.DB_TYPE
+import by.kavalchuk.aliaksandr.noteapp.utils.TYPE_FIREBASE
+import by.kavalchuk.aliaksandr.noteapp.utils.TYPE_ROOM
 
 @Composable
 fun MainScreen(navController: NavHostController, mainViewModel: MainViewModel) {
@@ -84,28 +87,21 @@ fun MainScreen(navController: NavHostController, mainViewModel: MainViewModel) {
     }
 }
 
-//?: Column(
-//modifier = Modifier.fillMaxSize(),
-//verticalArrangement = Arrangement.Center,
-//horizontalAlignment = Alignment.CenterHorizontally
-//) {
-//    CircularProgressIndicator(
-//        color = Color.Red,
-//        modifier = Modifier
-//
-//            .size(50.dp)
-//
-//    )
-//}
-
 @Composable
 fun NoteItem(note: Note, navController: NavHostController) {
+
+    val noteId = when(DB_TYPE) {
+        TYPE_FIREBASE ->note.firebaseId
+        TYPE_ROOM -> note.id
+        else -> Constants.Keys.EMPTY
+    }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp, horizontal = 16.dp)
             .clickable {
-                navController.navigate(NavRoute.Note.route + "/${note.id}")
+                navController.navigate(NavRoute.Note.route + "/${noteId}")
             },
         elevation = 6.dp
     ) {

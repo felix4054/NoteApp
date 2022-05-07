@@ -10,9 +10,11 @@ const val FIREBASE_ID = "firebaseId"
 lateinit var REPOSITORY: DatabaseRepository
 lateinit var LOGIN: String
 lateinit var PASSWORD: String
+lateinit var DB_TYPE: String
 
 object Constants {
     object Keys {
+        const val EMPTY = ""
         const val TITLE = "title"
         const val SUBTITLE = "subtitle"
         const val NOTE_DATABASE = "notes_database"
