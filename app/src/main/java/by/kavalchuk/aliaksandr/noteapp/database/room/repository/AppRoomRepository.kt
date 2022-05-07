@@ -36,4 +36,5 @@ class AppRoomRepository @Inject constructor(private val noteRoomDao: NoteRoomDao
         onSuccess()
     }
 
+    override fun signOut() { }
 }

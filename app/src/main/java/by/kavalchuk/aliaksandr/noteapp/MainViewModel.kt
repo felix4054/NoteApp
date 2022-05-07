@@ -9,9 +9,7 @@ import by.kavalchuk.aliaksandr.noteapp.database.NoteRoomDatabase
 import by.kavalchuk.aliaksandr.noteapp.database.firebase.repository.AppFirebaseRepository
 import by.kavalchuk.aliaksandr.noteapp.database.room.repository.AppRoomRepository
 import by.kavalchuk.aliaksandr.noteapp.model.Note
-import by.kavalchuk.aliaksandr.noteapp.utils.REPOSITORY
-import by.kavalchuk.aliaksandr.noteapp.utils.TYPE_FIREBASE
-import by.kavalchuk.aliaksandr.noteapp.utils.TYPE_ROOM
+import by.kavalchuk.aliaksandr.noteapp.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -53,11 +51,12 @@ class MainViewModel
             searchResults.value = REPOSITORY.asyncFind(title)
         }
     }
+
     // Добавить
     fun addNote(note: Note, onSuccess: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             REPOSITORY.create(note = note) {
-                viewModelScope.launch(Dispatchers.Main){
+                viewModelScope.launch(Dispatchers.Main) {
                     onSuccess()
                 }
             }
@@ -68,7 +67,7 @@ class MainViewModel
     fun updateNote(note: Note, onSuccess: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             REPOSITORY.update(note = note) {
-                viewModelScope.launch(Dispatchers.Main){
+                viewModelScope.launch(Dispatchers.Main) {
                     onSuccess()
                 }
             }
@@ -79,28 +78,26 @@ class MainViewModel
     fun deleteNote(note: Note, onSuccess: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             REPOSITORY.delete(note = note) {
-                viewModelScope.launch(Dispatchers.Main){
+                viewModelScope.launch(Dispatchers.Main) {
                     onSuccess()
                 }
             }
         }
     }
 
+    fun signOut(onSuccess: () -> Unit) {
+        when (DB_TYPE.value) {
+            TYPE_FIREBASE,
+            TYPE_ROOM -> {
+                REPOSITORY.signOut()
+                DB_TYPE.value = Constants.Keys.EMPTY
+                onSuccess()
+            }
+            else -> Log.d("checkData", "signOut: ELSE: ${DB_TYPE.value}")
+        }
+    }
+
 }
-
-//                val context = LocalContext.current
-//                val mainViewModel: MainViewModel =
-//                    viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
-
-//class MainViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
-//    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-//        @Suppress("UNCHECKED_CAST")
-//        if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
-//            return MainViewModel(application = application) as T
-//        }
-//        throw IllegalArgumentException("Unknown ViewModel Class")
-//    }
-//}
 
 
 

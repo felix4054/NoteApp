@@ -2,6 +2,7 @@ package by.kavalchuk.aliaksandr.noteapp.navigation
 
 import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -25,9 +26,7 @@ sealed class NavRoute(val route: String) {
 }
 
 @Composable
-fun NotesNavHost(mainViewModel: MainViewModel) {
-
-    val navController = rememberNavController()
+fun NotesNavHost(mainViewModel: MainViewModel, navController: NavHostController) {
 
     NavHost(
         navController = navController,
