@@ -8,27 +8,17 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import by.kavalchuk.aliaksandr.noteapp.MainViewModel
 import by.kavalchuk.aliaksandr.noteapp.model.Note
-import by.kavalchuk.aliaksandr.noteapp.navigation.NavRoute
-import by.kavalchuk.aliaksandr.noteapp.ui.theme.NoteAppTheme
-import by.kavalchuk.aliaksandr.noteapp.utils.Constants
 import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Keys.NONE
 import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Keys.NOTE_SUBTITLE
 import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Keys.NOTE_TITLE
-import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Keys.SAVE_NOTE
 import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Keys.UPDATE_NOTE
-import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Screens.ADD_SCREEN
 import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Screens.MAIN_SCREEN
-import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Screens.NOTE_SCREEN
 import kotlinx.coroutines.launch
-import kotlin.coroutines.coroutineContext
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable

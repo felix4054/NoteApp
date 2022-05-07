@@ -4,15 +4,17 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import by.kavalchuk.aliaksandr.noteapp.database.NoteRoomDatabase
-import by.kavalchuk.aliaksandr.noteapp.database.room.repository.RoomRepository
+import by.kavalchuk.aliaksandr.noteapp.database.firebase.repository.AppFirebaseRepository
+import by.kavalchuk.aliaksandr.noteapp.database.room.repository.AppRoomRepository
 import by.kavalchuk.aliaksandr.noteapp.model.Note
 import by.kavalchuk.aliaksandr.noteapp.utils.REPOSITORY
+import by.kavalchuk.aliaksandr.noteapp.utils.TYPE_FIREBASE
 import by.kavalchuk.aliaksandr.noteapp.utils.TYPE_ROOM
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,8 +32,15 @@ class MainViewModel
         when (type) {
             TYPE_ROOM -> {
                 val dao = NoteRoomDatabase.getInstance(context).getRoomDao()
-                REPOSITORY = RoomRepository(dao)
+                REPOSITORY = AppRoomRepository(dao)
                 onSuccess()
+            }
+            TYPE_FIREBASE -> {
+                REPOSITORY = AppFirebaseRepository()
+                REPOSITORY.connectToDataBase(
+                    { onSuccess() },
+                    { Log.d("checkData", "Error Firebase: $it") }
+                )
             }
         }
     }
@@ -76,8 +85,6 @@ class MainViewModel
             }
         }
     }
-
-
 
 }
 

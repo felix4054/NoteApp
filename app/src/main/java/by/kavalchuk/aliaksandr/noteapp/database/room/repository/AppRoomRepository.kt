@@ -8,7 +8,7 @@ import by.kavalchuk.aliaksandr.noteapp.model.Note
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-class RoomRepository @Inject constructor(private val noteRoomDao: NoteRoomDao): DatabaseRepository {
+class AppRoomRepository @Inject constructor(private val noteRoomDao: NoteRoomDao): DatabaseRepository {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 

@@ -26,7 +26,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             NoteAppTheme {
-//                val mainViewModel = hiltViewModel<MainViewModel>()
                 Scaffold(
                     topBar = {
                         TopAppBar(

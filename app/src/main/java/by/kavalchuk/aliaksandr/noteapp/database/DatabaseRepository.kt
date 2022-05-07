@@ -6,6 +6,10 @@ import by.kavalchuk.aliaksandr.noteapp.model.Note
 
 interface DatabaseRepository {
 
+    fun signOut() {}
+
+    fun connectToDataBase(onSuccess: () -> Unit, onFail: (String) -> Unit) {}
+
     val readAllData: LiveData<List<Note>>
 
     suspend fun create(note: Note, onSuccess: () -> Unit)
