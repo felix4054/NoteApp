@@ -75,7 +75,7 @@ fun StartScreen(navController: NavHostController, mainViewModel: MainViewModel) 
                             LOGIN = login
                             PASSWORD = password
                             mainViewModel.initDataBase(TYPE_FIREBASE) {
-                                Log.d("checkData", "Auth success")
+                                Log.d("checkData", "Auth Firebase success")
                             }
 //                                navController.popBackStack(
 //                                    Constants.Screens.MAIN_SCREEN,
