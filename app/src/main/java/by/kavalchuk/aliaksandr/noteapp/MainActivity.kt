@@ -17,17 +17,16 @@ import androidx.navigation.compose.rememberNavController
 import by.kavalchuk.aliaksandr.noteapp.navigation.NotesNavHost
 import by.kavalchuk.aliaksandr.noteapp.screens.StartScreen
 import by.kavalchuk.aliaksandr.noteapp.ui.theme.NoteAppTheme
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             NoteAppTheme {
-                val context = LocalContext.current
-                val mainViewModel: MainViewModel =
-                    viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
+//                val mainViewModel = hiltViewModel<MainViewModel>()
                 Scaffold(
                     topBar = {
                         TopAppBar(
@@ -44,23 +43,12 @@ class MainActivity : ComponentActivity() {
                             modifier = Modifier.fillMaxSize(),
                             color = MaterialTheme.colors.background
                         ) {
-                            NotesNavHost(mainViewModel)
+                            NotesNavHost()
                         }
                     }
                 )
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewStartScreen() {
-    NoteAppTheme {
-        StartScreen(
-            navController = rememberNavController(),
-            mainViewModel = hiltViewModel()
-        )
     }
 }
 

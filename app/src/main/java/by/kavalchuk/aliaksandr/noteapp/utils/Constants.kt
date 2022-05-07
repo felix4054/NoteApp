@@ -16,6 +16,7 @@ object Constants {
         const val NOTE_TITLE = "Note title"
         const val NOTE_SUBTITLE = "Note subtitle"
         const val SAVE_NOTE = "Save Note"
+        const val UPDATE_NOTE = "Update Note"
 
 
         const val ID = "id"

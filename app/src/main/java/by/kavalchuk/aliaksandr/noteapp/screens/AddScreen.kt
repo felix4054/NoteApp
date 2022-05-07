@@ -3,6 +3,7 @@ package by.kavalchuk.aliaksandr.noteapp.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -20,13 +21,16 @@ import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Keys.ADD_NEW_NOTE
 import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Keys.NOTE_SUBTITLE
 import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Keys.NOTE_TITLE
 import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Keys.SAVE_NOTE
+import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Screens.MAIN_SCREEN
+import by.kavalchuk.aliaksandr.noteapp.utils.Constants.Screens.START_SCREEN
 
 @Composable
-fun AddScreen(navController: NavHostController, mainViewModel: MainViewModel) {
+fun AddScreen(navController: NavHostController,  mainViewModel: MainViewModel) {
 
     var title by remember { mutableStateOf("") }
     var subtitle by remember { mutableStateOf("") }
     var isButtonEnable by remember { mutableStateOf(false) }
+
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -65,7 +69,11 @@ fun AddScreen(navController: NavHostController, mainViewModel: MainViewModel) {
                 enabled = isButtonEnable,
                 onClick = {
                     mainViewModel.addNote(note = Note(title = title, subtitle = subtitle)) {
-                        navController.navigate(NavRoute.Main.route)
+                        navController.popBackStack(MAIN_SCREEN, inclusive = false)
+//                        navController.navigate(NavRoute.Main.route) {
+//                            popUpTo(MAIN_SCREEN) { saveState = true }
+//                            launchSingleTop = true
+//                        }
                     }
                 },
                 modifier = Modifier

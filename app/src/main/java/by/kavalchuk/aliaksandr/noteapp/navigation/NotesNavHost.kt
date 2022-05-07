@@ -1,6 +1,9 @@
 package by.kavalchuk.aliaksandr.noteapp.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -24,38 +27,43 @@ sealed class NavRoute(val route: String) {
 }
 
 @Composable
-fun NotesNavHost(mainViewModel: MainViewModel) {
+fun NotesNavHost(modifier: Modifier = Modifier) {
 
     val navController = rememberNavController()
+    val mainViewModel = hiltViewModel<MainViewModel>()
 
     NavHost(
         navController = navController,
-        startDestination = NavRoute.Start.route
+        startDestination = NavRoute.Start.route,
+        modifier = modifier
     ) {
         composable(NavRoute.Start.route) {
+            Log.e("composable", " Start Screen")
             StartScreen(
                 navController = navController,
                 mainViewModel = mainViewModel
             )
         }
         composable(NavRoute.Main.route) {
-
+            Log.e("composable", " Main Screen")
             MainScreen(
                 navController = navController,
                 mainViewModel = mainViewModel
             )
         }
         composable(NavRoute.Add.route) {
+            Log.e("composable", " Add Screen")
             AddScreen(
                 navController = navController,
                 mainViewModel = mainViewModel
             )
         }
-        composable(NavRoute.Note.route + "/{${ID}}") { backStateEnty ->
+        composable(NavRoute.Note.route + "/{${ID}}") { backStackEntry ->
+            Log.e("composable", " Note Screen" + "/{${ID}}")
             NoteScreen(
                 navController = navController,
                 mainViewModel = mainViewModel,
-                noteId = backStateEnty.arguments?.getString(ID)
+                noteId = backStackEntry.arguments?.getString(ID)
             )
         }
     }

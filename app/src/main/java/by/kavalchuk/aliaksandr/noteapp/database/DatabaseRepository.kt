@@ -14,7 +14,5 @@ interface DatabaseRepository {
 
     suspend fun delete(note: Note, onSuccess: () -> Unit)
 
-//    suspend fun deleteAllTodos() {
-//        todoDatabaseDao.deleteAllTodos()
-//    }
+    suspend fun asyncFind(title: String): List<Note>?
 }

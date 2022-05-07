@@ -2,16 +2,13 @@ package by.kavalchuk.aliaksandr.noteapp.screens
 
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,11 +24,17 @@ import by.kavalchuk.aliaksandr.noteapp.MainViewModel
 import by.kavalchuk.aliaksandr.noteapp.model.Note
 import by.kavalchuk.aliaksandr.noteapp.navigation.NavRoute
 import by.kavalchuk.aliaksandr.noteapp.ui.theme.NoteAppTheme
+import by.kavalchuk.aliaksandr.noteapp.utils.Constants
 
 @Composable
 fun MainScreen(navController: NavHostController, mainViewModel: MainViewModel) {
 
     var notes = mainViewModel.readAllNotes().observeAsState(listOf()).value
+
+    var title by remember { mutableStateOf("") }
+    val searchResults = mainViewModel.searchResults.observeAsState(listOf()).value
+    var searching by remember { mutableStateOf(false) }
+    var isButtonEnable by remember { mutableStateOf(false) }
 
     Scaffold(
         floatingActionButton = {
@@ -50,14 +53,50 @@ fun MainScreen(navController: NavHostController, mainViewModel: MainViewModel) {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            LazyColumn {
-                items(notes) { note ->
+            OutlinedTextField(
+                value = title,
+                onValueChange = {
+                    title = it
+                    isButtonEnable = title.isNotEmpty()
+                },
+                label = { Text(text = Constants.Keys.NOTE_TITLE) },
+                isError = title.isEmpty()
+            )
+            Button(
+                enabled = isButtonEnable,
+                onClick = {
+                searching = true
+                mainViewModel.findNote(title)
+            }) {
+                Text("Search")
+            }
+            LazyColumn (
+//                verticalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                val listNote = if (searching) searchResults else notes
+                items(listNote) { note ->
                     NoteItem(note = note, navController = navController)
                 }
             }
         }
     }
 }
+
+//?: Column(
+//modifier = Modifier.fillMaxSize(),
+//verticalArrangement = Arrangement.Center,
+//horizontalAlignment = Alignment.CenterHorizontally
+//) {
+//    CircularProgressIndicator(
+//        color = Color.Red,
+//        modifier = Modifier
+//
+//            .size(50.dp)
+//
+//    )
+//}
 
 @Composable
 fun NoteItem(note: Note, navController: NavHostController) {
@@ -87,16 +126,7 @@ fun NoteItem(note: Note, navController: NavHostController) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewMainScreen() {
-    NoteAppTheme {
-        MainScreen(
-            navController = rememberNavController(),
-            mainViewModel = hiltViewModel()
-        )
-    }
-}
+
 
 
 
