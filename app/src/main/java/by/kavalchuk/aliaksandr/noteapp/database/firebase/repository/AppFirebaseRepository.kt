@@ -1,16 +1,24 @@
 package by.kavalchuk.aliaksandr.noteapp.database.firebase.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import by.kavalchuk.aliaksandr.noteapp.database.DatabaseRepository
+import by.kavalchuk.aliaksandr.noteapp.database.firebase.AllNotesLiveData
 import by.kavalchuk.aliaksandr.noteapp.model.Note
+import by.kavalchuk.aliaksandr.noteapp.utils.Constants
+import by.kavalchuk.aliaksandr.noteapp.utils.FIREBASE_ID
 import by.kavalchuk.aliaksandr.noteapp.utils.LOGIN
 import by.kavalchuk.aliaksandr.noteapp.utils.PASSWORD
 import com.google.firebase.auth.FirebaseAuth
-import javax.inject.Inject
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
-class AppFirebaseRepository @Inject constructor(): DatabaseRepository {
 
-    private var mAuth = FirebaseAuth.getInstance();
+class AppFirebaseRepository : DatabaseRepository {
+
+    private var mAuth = FirebaseAuth.getInstance()
+    private val database = Firebase.database.reference
+        .child(mAuth.currentUser?.uid.toString())
 
     override fun signOut() {
         mAuth.signOut()
@@ -26,15 +34,30 @@ class AppFirebaseRepository @Inject constructor(): DatabaseRepository {
             }
     }
 
-    override val readAllData: LiveData<List<Note>>
-        get() = TODO("Not yet implemented")
+    override val readAllData: LiveData<List<Note>> = AllNotesLiveData()
 
     override suspend fun asyncFind(title: String): List<Note>? {
         TODO("Not yet implemented")
     }
 
     override suspend fun create(note: Note, onSuccess: () -> Unit) {
-        TODO("Not yet implemented")
+        val noteId = database.push().key.toString()
+        val mapNotes = hashMapOf<String, Any>()
+
+        mapNotes[FIREBASE_ID] = noteId
+        mapNotes[Constants.Keys.TITLE] = note.title
+        mapNotes[Constants.Keys.SUBTITLE] = note.subtitle
+
+        database.child(noteId)
+            .updateChildren(mapNotes)
+            .addOnSuccessListener {
+                Log.d("checkData", "Add Firebase success")
+                onSuccess()
+            }
+            .addOnFailureListener {
+                Log.d("checkData", "Error Firebase(failed to add new notes)")
+            }
+
     }
 
     override suspend fun update(note: Note, onSuccess: () -> Unit) {

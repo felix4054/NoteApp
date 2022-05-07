@@ -1,11 +1,12 @@
 package by.kavalchuk.aliaksandr.noteapp.database.room.repository
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import by.kavalchuk.aliaksandr.noteapp.database.DatabaseRepository
 import by.kavalchuk.aliaksandr.noteapp.database.room.dao.NoteRoomDao
 import by.kavalchuk.aliaksandr.noteapp.model.Note
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import javax.inject.Inject
 
 class AppRoomRepository @Inject constructor(private val noteRoomDao: NoteRoomDao): DatabaseRepository {

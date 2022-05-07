@@ -30,7 +30,6 @@ fun NoteScreen(navController: NavHostController, mainViewModel: MainViewModel, n
     val coroutineScope = rememberCoroutineScope()
     var title by remember { mutableStateOf("") }
     var subtitle by remember { mutableStateOf("") }
-    var isButtonEnable by remember { mutableStateOf(false) }
 
     ModalBottomSheetLayout(
         sheetState = bottomSheetState,

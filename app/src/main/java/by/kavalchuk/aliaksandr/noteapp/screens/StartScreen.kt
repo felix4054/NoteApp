@@ -23,7 +23,7 @@ fun StartScreen(navController: NavHostController, mainViewModel: MainViewModel) 
     val coroutineScope = rememberCoroutineScope()
     var login by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var isButtonEnable by remember { mutableStateOf(false) }
+//    var isButtonEnable by remember { mutableStateOf(false) }
 
     ModalBottomSheetLayout(
 
@@ -75,7 +75,7 @@ fun StartScreen(navController: NavHostController, mainViewModel: MainViewModel) 
                             LOGIN = login
                             PASSWORD = password
                             mainViewModel.initDataBase(TYPE_FIREBASE) {
-                                Log.d("checkData", "Auth Firebase success")
+                                navController.navigate(NavRoute.Main.route)
                             }
 //                                navController.popBackStack(
 //                                    Constants.Screens.MAIN_SCREEN,

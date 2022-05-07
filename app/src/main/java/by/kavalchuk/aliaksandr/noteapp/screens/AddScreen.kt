@@ -69,11 +69,11 @@ fun AddScreen(navController: NavHostController,  mainViewModel: MainViewModel) {
                 enabled = isButtonEnable,
                 onClick = {
                     mainViewModel.addNote(note = Note(title = title, subtitle = subtitle)) {
-                        navController.popBackStack(MAIN_SCREEN, inclusive = false)
-//                        navController.navigate(NavRoute.Main.route) {
-//                            popUpTo(MAIN_SCREEN) { saveState = true }
-//                            launchSingleTop = true
-//                        }
+//                        navController.popBackStack(MAIN_SCREEN, inclusive = false)
+                        navController.navigate(NavRoute.Main.route) {
+                            popUpTo(MAIN_SCREEN) { saveState = true }
+                            launchSingleTop = true
+                        }
                     }
                 },
                 modifier = Modifier
@@ -87,16 +87,6 @@ fun AddScreen(navController: NavHostController,  mainViewModel: MainViewModel) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewNAddScreen() {
-    NoteAppTheme {
-        AddScreen(
-            navController = rememberNavController(),
-            mainViewModel = hiltViewModel()
-        )
-    }
-}
 
 
 
